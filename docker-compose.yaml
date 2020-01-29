@@ -2,11 +2,11 @@ version: "3"
 
 services:
   containerdemo:
-    image: "29c983f717e9"
+    image: "containerdemo"
     expose:
       - "5000"
   nginx:
-    image: "bc7fdec94612"
+    image: "nginx"
     volumes:
       - G:\exploration\nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
