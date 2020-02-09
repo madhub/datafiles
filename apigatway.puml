@@ -1,0 +1,44 @@
+@startuml
+
+
+actor Client
+
+'together {
+    component ApiGateway#Orange{
+
+    }
+
+    component IdentifyServer#Azure {
+        
+    }
+' }
+component MicroService#GreenYellow {
+
+}
+
+
+Client --> ApiGateway
+
+Client .right.>IdentifyServer : Authenticate
+ApiGateway -right->IdentifyServer
+ApiGateway -down-> MicroService
+
+note left of ApiGateway
+#Client Request without access token
+will be redirected to Identify server for Authentication.
+
+===Option 1: Individual Micro service resposible for the Authorize based on th permssion**
+## If access token is available gateway introspects with Identify server
+generate  Jwt with all the permissions for the user & send it micro service.
+
+## Micro service verify the token, extract & authorize the request
+
+===Option 2: Authorization logic in Gateway **
+# If access token is available gateway introspects with Identify server
+verify the authorizaton based on the permissions & input request
+
+# Micro service responds to request ( does not do any authentication or Authorization)
+<img:http://plantuml.com/logo3.png> 
+end note
+
+@enduml
