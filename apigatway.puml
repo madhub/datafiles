@@ -38,7 +38,6 @@ generate  Jwt with all the permissions for the user & send it micro service.
 verify the authorizaton based on the permissions & input request
 
 # Micro service responds to request ( does not do any authentication or Authorization)
-<img:http://plantuml.com/logo3.png> 
 end note
 
 @enduml
