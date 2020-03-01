@@ -1,0 +1,179 @@
+@startuml
+title "using hidden element for layout structuring"
+skinparam Style strictuml
+skinparam defaultFontName Segoe UI
+skinparam DefaultFontSize 16
+'skinparam DefaultFontStyle bold
+skinparam ArrowThickness 2.2
+skinparam ArrowColor #gray
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 5
+skinparam maxmessagesize 60
+skinparam SequenceMessageAlignment center
+
+
+
+package "Core Components" {
+    [Backend Client] as BackendClient
+    [File Reader] as FileReader
+    [Content Transform] as ContentTransform
+    [Logging]
+}
+
+BackendClient ~~> ContentTransform : uses
+FileReader ~~> ContentTransform: uses
+BackendClient ~[hidden]~> Logging
+
+
+
+@enduml
+
+
+@startuml
+title "switch off shadows"
+skinparam defaultFontName Segoe UI
+' Remove shadows
+skinparam shadowing false
+
+actor User
+[Third party application] as ThirdPartyApp
+
+package "Spring Boot Application" {
+    rectangle Controllers <<Spring REST controllers>>
+    rectangle DataStoreService <<Spring service>>
+    rectangle Repository <<Spring repository>>
+}
+
+User --> Controllers
+ThirdPartyApp --> Controllers
+
+Controllers --> DataStoreService
+DataStoreService --> Repository
+
+@enduml
+
+
+@startuml
+
+skinparam defaultFontName Segoe UI
+title "Keeping element togther"
+actor User
+[Third party application] as ThirdPartyApp
+
+/' Try to keep PostgresDB and Mail together,
+   so they are at the same level in the diagram. '/
+together {
+    [PostgreSQL database] as PostgresDB <<Database>>
+    [Mail server] as Mail <<Mail server>>
+}
+
+package "Spring Boot Application" {
+    [Controllers] <<Spring REST controllers>>
+    [DataStoreService] <<Spring service>>
+    [Repository] <<Spring repository>>
+}
+
+User --> Controllers
+ThirdPartyApp --> Controllers
+
+Controllers --> DataStoreService
+
+DataStoreService --> Repository
+DataStoreService --> Mail
+
+Repository --> PostgresDB
+
+@enduml
+
+
+@startuml
+
+title diagram in monochrome - %date%
+' Generated diagram will be in black/grey/white.
+skinparam monochrome true
+skinparam defaultFontName Segoe UI
+
+actor User
+[Third party application] as ThirdPartyApp
+
+package "Spring Boot Application" {
+    rectangle Controllers <<Spring REST controllers>>
+    rectangle DataStoreService <<Spring service>>
+    rectangle Repository <<Spring repository>>
+}
+
+User --> Controllers
+ThirdPartyApp --> Controllers
+
+Controllers --> DataStoreService
+DataStoreService --> Repository
+
+@enduml
+
+
+@startuml
+
+/' Set custom background colors for the default
+   component elements and the specific stereotypes. '/
+skinparam component {
+    BackgroundColor #ff6666
+    BackgroundColor<<Database>> #ccff66
+    BackgroundColor<<Spring service>> #66ccff
+    BackgroundColor<<Spring REST controllers>> #66ffcc
+    BackgroundColor<<Spring repository>> #66ffff
+    BackgroundColor<<Mail server>> #ffcc66
+}
+skinparam defaultFontName Segoe UI
+
+actor User
+[Third party application] as ThirdPartyApp
+
+together {
+    [PostgreSQL database] as PostgresDB <<Database>>
+    [Mail server] as Mail <<Mail server>>
+}
+
+package "Spring Boot Application" {
+    [APIController] <<Spring REST controllers>>
+    [AdminController] <<Spring REST controllers>>
+
+    [AdminService] <<Spring service>>
+    [DataStoreService] <<Spring service>>
+
+    [Repository] <<Spring repository>>
+}
+
+User --> AdminController
+ThirdPartyApp --> APIController
+
+APIController --> DataStoreService
+AdminController --> DataStoreService
+AdminController --> AdminService
+
+DataStoreService --> Repository
+AdminService --> Mail
+
+Repository --> PostgresDB
+
+@enduml
+
+@startuml
+
+title Line style & color
+skinparam defaultFontName Segoe UI
+' Make a dashed line, alternative syntax for ..>
+(*) -[dashed]-> "Write outline"
+
+' Make line bold and use color name
+"Write outline" -[bold,#green]-> "Find example"
+
+' Only change the color with hexadecimal RGB code
+"Find example" -[#ff00ff]-> "Write blog"
+
+' Order of line style and color can be reversed
+"Write blog" -[#6666ff,dashed]-> "Publish"
+
+' Use dotted line style
+"Publish" -[dotted]-> (*)
+
+@enduml
