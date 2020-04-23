@@ -1,0 +1,43 @@
+nginx proxy
+===========
+user  nginx;
+events {
+      worker_connections   1000;
+  }
+stream {
+  
+  server {
+                listen 4000;
+                proxy_pass tcpecho2:8087;
+                
+  }
+}
+
+docker-compose
+==================
+
+
+version: "3"
+
+services:
+  containerdemo:
+    image: "tcpecho"
+    expose:
+      - "8087"
+  nginx:
+    image: "nginx"
+    volumes:
+      - /home/madhub/demos/compose-files/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - tcpecho
+    ports:
+      - "4000:4000"
+
+docker-file
+============
+# Build runtime image docker build -t tcpecho .
+FROM mcr.microsoft.com/dotnet/core/runtime:3.1
+WORKDIR /app
+COPY out .
+EXPOSE 8087/tcp
+ENTRYPOINT ["dotnet", "tcpecho2.dll"]
