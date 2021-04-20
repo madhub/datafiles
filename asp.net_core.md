@@ -1,3 +1,4 @@
+* Enable MVC & Routing log/trace add  "Microsoft.AspNetCore.Mvc":"Trace","Microsoft.AspNetCore.Routing":"Trace" entries to appSettings.json
 * To enable Kestral Connection logging
 ```csharp
 public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -131,4 +132,19 @@ public class RawJsonBodyInputFormatter : InputFormatter
             return await InputFormatterResult.FailureAsync();
         }
     }
+```
+```csharp
+Handling multiple routes in a method with Custome content type
+[HttpPost]
+[Route("routeA"]
+[Route("routeB"]
+[Route("routeC"]
+public ActionResult SomeMethod()
+{
+  return new ContentResult() 
+  {
+     Content = "some data",
+     ContentType = "content type relevent to the data"
+  }
+}
 ```
