@@ -1,3 +1,7 @@
+
+
+
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:  
@@ -21,9 +25,9 @@ spec:
         ports:
         - containerPort: 80  
 
+```
 
-
-
+```yml
 apiVersion: v1
 kind: Service
 metadata:
@@ -49,7 +53,8 @@ var handler = function(request, response) {
   response.end("You've hit " + os.hostname() + "\n");
 };
 
-
+```
+```yml
 apiVersion: apps/v1
 kind: Deployment                 
 metadata:
@@ -73,7 +78,8 @@ spec:
         ports:
         - containerPort: 8080  
 
-
+```
+```yml
 apiVersion: v1
 kind: Service
 metadata:
@@ -86,3 +92,4 @@ spec:
     app: kubia              
 var www = http.createServer(handler);
 www.listen(8080);
+```
