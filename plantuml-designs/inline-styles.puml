@@ -1,0 +1,37 @@
+@startuml
+
+
+skinparam rectangle<<optional_stereotype>> {
+        FontColor             Blue
+'        FontName              verdana
+        FontSize              20
+        FontStyle             Red
+        HeaderBackgroundColor Blue
+}
+hide stereotype
+
+rectangle "This the demo" as abc11111 <<optional_stereotype>> {
+
+}
+component component #palegreen;line:green;line.dashed;text:red
+node node           #palegreen;line:green;line.dashed;text:green
+folder folder       #palegreen;line:green;line.dashed;text:green
+package package     #palegreen;line:green;line.dashed;text:green
+usecase usecase     #palegreen;line:green;line.dashed;text:green
+usecase/ "usecase/" #palegreen;line:green;line.dashed;text:green
+rectangle  "demo 123" as abc #blue;text:white
+
+
+package package_bold   #palegreen;line:green;line.bold;text:green {
+node n1
+}
+package package_dashed #palegreen;line:green;line.dashed;text:green {
+node n2
+}
+package package_dotted #palegreen;line:green;line.dotted;text:green {
+node n3
+}
+
+footer Observed on    : (current version: %version())
+
+@enduml

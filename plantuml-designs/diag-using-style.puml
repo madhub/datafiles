@@ -1,0 +1,18 @@
+@startuml
+node "a"
+node "b\na b c"
+<style>
+.abbr{
+
+  FontColor green
+  HorizontalAlignment right
+  LineColor blue
+
+}
+</style>
+hide <<abbr>> stereotype
+node "c\na b c" <<abbr>>
+rectangle "Hello" <<abbr>>
+rectangle "two" <<abbr>> as a1
+
+@enduml

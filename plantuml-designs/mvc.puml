@@ -1,0 +1,64 @@
+@startuml
+skinparam defaultFontName Segoe UI
+skinparam Style strictuml
+skinparam DefaultFontSize 16
+skinparam ArrowThickness 2.2
+'skinparam ArrowColor #gray
+skinparam sequenceArrowThickness 2
+skinparam DefaultTextAlignment left
+skinparam roundcorner 10
+
+!theme lightgray
+' materia-outline
+note as abc1#white
+{{
+' https://www.dotnetcurry.com/patterns-practices/web-application-architecture
+rectangle "Controller" as controller{
+
+}
+rectangle "Model" as model{
+    
+}
+
+rectangle "View" as view{
+    
+}
+
+controller --> model
+controller --> view
+view -left->model
+
+}}
+end note
+
+note as abc#white
+{{
+
+actor Browser
+
+
+box "Server"
+participant  Controller
+participant  Model
+participant  View
+end box
+
+Browser -> Controller  : GET /customer/:id
+activate Controller
+Controller -> Model : CustomerRep.Get(id)
+activate Model
+Controller <-- Model : customer
+deactivate Model
+Controller -> View : View(customer)
+deactivate Controller
+activate View
+View --> Browser : HTTP/1.1  200 OK 
+deactivate View
+
+
+
+
+}}
+end note
+
+@enduml

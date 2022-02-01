@@ -1,0 +1,25 @@
+@startuml
+skinparam defaultFontName Segoe UI
+skinparam RoundCorner 5
+'scale 2/3
+center header
+C4 Architecture
+endheader
+!include https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+title Component Diagram for Onion Architecture-based application
+ContainerDb(database,"Database","SQL Database","Transactional data store")
+System_Ext(twilio,"Twilio SMS system","Sends text message notifications.")
+Container_Boundary(ui,"UI Web Application") {
+    Component(blazorcomponents,"Blazor-powered screens","Blazor pages/components","Main,auto updating screen to browse entries")
+    Component(bus,"Sychronous applicatio bus","Mediatr library","Provides hub/spoke pattern for sending synchronous commands, queries,events throught the application")
+    Component(commandhandlers,"Command Handlers","Mediatr HandlerBase implementations","Execute transactions and perform tasks that need to be dobe by satisfying Command messages")
+    Component(queryhandlers,"Query Handlers","Mediatr HandlerBase implementations","Retrieve data needed by other parts of the application by satisfying Query messages")
+    Rel(blazorcomponents,bus,"Sends commands and queries to for routing","synchronous C# code, block & wait")
+    Rel(bus,commandhandlers,"Routes commands to","C# POCO/DTO style classes")
+    Rel(commandhandlers,database,"Writes to via EFCore ORM","Uses auto disposing DataContext w/ DDD-style entity mappings")
+    Rel(bus,queryhandlers,"Routes query messages to","C# POCO/DTO style classes")
+    Rel(queryhandlers,database,"Reads from via EFCore ORM")
+
+}
+Rel(commandhandlers,twilio,"Calls API to SMS messages for buyer security code and outbid notifications","HTTPS API-producation only")
+@enduml
