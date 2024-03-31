@@ -1,0 +1,37 @@
+# Reference https://github.com/open-telemetry/opentelemetry-collector-contrib/issues/22994#issuecomment-1855454694
+exporters:
+  debug:
+    verbosity: detailed
+  prometheus:
+    endpoint: localhost:1234
+  otlp:
+    endpoint: localhost:4317    
+    tls:
+      insecure: true
+processors:
+  filter/drop-non-2xx-datapoints:
+    metrics:
+      datapoint:
+        - 'metric.name == "httpcheck.status" and attributes["http.status_class"] != "2xx"'
+  transform/drop-status-class-attribute:
+    metric_statements:
+    - context: datapoint
+      statements:
+      - keep_keys(attributes, ["http.url", "http.status_code", "http.method"]) where metric.name == "httpcheck.status"
+receivers:
+  httpcheck:
+    collection_interval: 5s
+    targets:
+    - endpoint: https://opentelemetry.io
+    - endpoint: https://non.existent.address
+service:
+  pipelines:
+    metrics:
+      exporters:
+      - debug
+      - otlp
+      processors:
+      - filter/drop-non-2xx-datapoints
+      - transform/drop-status-class-attribute
+      receivers:
+      - httpcheck
